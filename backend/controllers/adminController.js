@@ -3,7 +3,7 @@
  * Solo para PROFESSIONAL_ADMIN
  */
 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const { query } = require('../config/database');
 const { sendWelcomeEmailToProfessional } = require('../services/email_service');

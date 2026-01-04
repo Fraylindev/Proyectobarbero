@@ -3,7 +3,7 @@
  * Prueba con el hash de tu base de datos
  */
 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const { Pool } = require('pg');
 require('dotenv').config();
 
