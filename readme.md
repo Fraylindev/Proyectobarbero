@@ -161,7 +161,7 @@ INSERT INTO professionals (
 
 ```javascript
 // create-user.js
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs  ');
 
 const password = 'tu_password_aqui';
 bcrypt.hash(password, 10, (err, hash) => {
