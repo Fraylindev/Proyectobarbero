@@ -3,7 +3,7 @@
  * Registro y autenticación para clientes
  */
 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { query } = require('../config/database');
 
