@@ -70,7 +70,7 @@ api.interceptors.response.use(
 // ===============================
 export const authService = {
   login: (username, password) =>
-    api.post("/auth/login", { username, password }).then((r) => r.data),
+    api.post("/auth/unified-login", { username, password }).then((r) => r.data),
 
   logout: async () => {
     const refreshToken = localStorage.getItem("refreshToken");

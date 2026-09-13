@@ -29,7 +29,8 @@ export const AuthProvider = ({ children }) => {
 
     try {
       // Verificar token con el backend
-      const response = await axios.get('http://localhost:5000/api/auth/me', {
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      const response = await axios.get(`${API_URL}/auth/me`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -71,8 +72,9 @@ const login = (userData, type, tokens) => {
 
   const logout = async () => {
     try {
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
       const refreshToken = localStorage.getItem('refreshToken');
-      await axios.post('http://localhost:5000/api/auth/logout', { refreshToken });
+      await axios.post(`${API_URL}/auth/logout`, { refreshToken });
     } catch (error) {
       console.error('Error en logout:', error);
     } finally {

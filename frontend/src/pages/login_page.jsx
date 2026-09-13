@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, LogIn, Lock, User } from 'lucide-react';
 import { useAuth } from '../context/auth_context';
-import axios from 'axios';
+import { authService } from '../services/api';
 import toast from 'react-hot-toast';
 
 const Login = () => {
@@ -32,20 +32,13 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        'http://localhost:5000/api/auth/unified-login',
-        {
-          username: formData.username,
-          password: formData.password,
-        }
-      );
+      const response = await authService.login(formData.username, formData.password);
 
       /**
        * Estructura esperada:
-       * response.data.data = { userType, user, accessToken, refreshToken }
+       * response.data = { userType, user, accessToken, refreshToken }
        */
-      const { userType, user, accessToken, refreshToken } =
-        response.data.data;
+      const { userType, user, accessToken, refreshToken } = response.data;
 
       // Guardar sesión en AuthContext
       authLogin(user, userType, {
