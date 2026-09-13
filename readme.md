@@ -1,4 +1,4 @@
-# 💈 Michael Barbershop - Sistema de Reservas
+# 💈 Barbershop App - Sistema de Reservas White-Label
 
 Sistema completo de gestión de reservas para barbería con dashboard profesional, diseñado para uso real en producción.
 
@@ -147,12 +147,12 @@ INSERT INTO professionals (
   username, 
   password_hash
 ) VALUES (
-  'Michael García',
+  'Admin Barbero',
   'Especialista en degradados',
   'Más de 10 años de experiencia',
   '18091234567',
-  'michael@michaelbarbershop.com',
-  'michael',
+  'admin@tu-dominio.com',
+  'admin',
   '$2b$10$XYZ...' -- Reemplaza con tu hash
 );
 ```
@@ -201,7 +201,7 @@ EMAIL_PASSWORD=tu_api_key
 Después de crear tu primer usuario:
 
 ```
-Usuario: michael
+Usuario: admin
 Contraseña: tu_password
 ```
 
@@ -484,7 +484,7 @@ pg_isready
 ## 🤝 Soporte
 
 Para problemas o preguntas:
-- Email: soporte@michaelbarbershop.com
+- Email: soporte@tu-dominio.com
 - WhatsApp: +1 809-123-4567
 
 ---
@@ -495,4 +495,4 @@ MIT License - Uso libre para proyectos comerciales y personales.
 
 ---
 
-**Desarrollado con ❤️ para Michael Barbershop**
+**Desarrollado con ❤️ - White Label Edition**
