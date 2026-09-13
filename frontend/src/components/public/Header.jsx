@@ -37,7 +37,7 @@ const Header = () => {
           <div className="flex items-center space-x-2">
             <Scissors className="w-8 h-8 text-primary-600" />
             <span className="text-2xl font-display font-bold text-dark-900">
-              Michael Barbershop
+              {import.meta.env.VITE_BUSINESS_NAME || 'La Barbería'}
             </span>
           </div>
 

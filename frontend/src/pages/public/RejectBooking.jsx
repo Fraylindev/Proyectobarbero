@@ -279,7 +279,7 @@ const RejectBooking = () => {
         {/* Info Footer */}
         <div className="mt-8 text-center">
           <p className="text-sm text-gray-600">
-            Michael Barbershop • Sistema de Reservas
+            {import.meta.env.VITE_BUSINESS_NAME || 'La Barbería'} • Sistema de Reservas
           </p>
         </div>
       </div>

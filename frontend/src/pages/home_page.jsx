@@ -22,10 +22,9 @@ const Home = () => {
               Sobre Nosotros
             </h2>
             <p className="text-xl text-dark-600 leading-relaxed mb-8">
-              Michael Barbershop es más que una barbería, es un espacio donde el estilo, 
-              la tradición y la innovación se encuentran. Con más de 7 años de experiencia, 
-              nuestro equipo de profesionales certificados está comprometido con ofrecer 
-              los mejores cortes y servicios de barbería.
+              {import.meta.env.VITE_BUSINESS_NAME || 'La Barbería'} es más que un lugar de corte, es un espacio donde el estilo, 
+              la precisión y la tradición se unen. Nuestro equipo de profesionales 
+              está dedicado a brindarte la mejor experiencia de cuidado personal.
             </p>
             <div className="grid md:grid-cols-3 gap-8 mt-12">
               <div className="p-6">
@@ -197,7 +196,7 @@ const Home = () => {
       <footer className="bg-dark-950 text-white py-8">
         <div className="container mx-auto px-4 text-center">
           <p className="text-dark-400">
-            © 2025 Michael Barbershop. Todos los derechos reservados.
+            © {new Date().getFullYear()} {import.meta.env.VITE_BUSINESS_NAME || 'La Barbería'}. Todos los derechos reservados.
           </p>
         </div>
       </footer>

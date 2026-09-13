@@ -13,7 +13,7 @@
     "bookings",
     "api"
   ],
-  "author": "Michael Barbershop",
+  "author": "Barbershop App",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^3.0.3",

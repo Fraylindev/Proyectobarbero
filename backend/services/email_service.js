@@ -8,6 +8,7 @@ require('dotenv').config();
 console.log('RESEND_API_KEY loaded:', process.env.RESEND_API_KEY ? 'YES' : 'NO');
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+const BUSINESS_NAME = process.env.BUSINESS_NAME || 'La Barbería';
 
 /**
  * Función base para enviar emails
@@ -40,7 +41,7 @@ const sendEmail = async ({ to, subject, html }) => {
 const sendBookingNotificationToProfessional = async (booking, professional, service) => {
   const confirmUrl = `${process.env.FRONTEND_URL}/confirm/${booking.confirmation_token}`;
   const rejectUrl = `${process.env.FRONTEND_URL}/reject/${booking.confirmation_token}`;
-  const whatsappUrl = `https://wa.me/${booking.client_phone.replace(/\D/g, '')}?text=Hola%20${encodeURIComponent(booking.client_name)}%2C%20soy%20${encodeURIComponent(professional.name)}%20de%20Michael%20Barbershop`;
+  const whatsappUrl = `https://wa.me/${booking.client_phone.replace(/\D/g, '')}?text=Hola%20${encodeURIComponent(booking.client_name)}%2C%20soy%20${encodeURIComponent(professional.name)}%20de%20${encodeURIComponent(BUSINESS_NAME)}`;
 
   const htmlContent = `
     <!DOCTYPE html>
@@ -128,7 +129,7 @@ const sendBookingNotificationToProfessional = async (booking, professional, serv
         
         <div class="footer">
           <p>Este link expira en 7 días</p>
-          <p>Michael Barbershop - Sistema de Reservas</p>
+          <p>${BUSINESS_NAME} - Sistema de Reservas</p>
         </div>
       </div>
     </body>
@@ -225,7 +226,7 @@ const sendBookingConfirmationToClient = async (booking, professional, service) =
         
         <div class="footer">
           <p>Si necesitas cancelar o reprogramar, contacta directamente al profesional</p>
-          <p>Michael Barbershop</p>
+          <p>${BUSINESS_NAME}</p>
           <p>📍 Santo Domingo, República Dominicana</p>
         </div>
       </div>
@@ -237,7 +238,7 @@ const sendBookingConfirmationToClient = async (booking, professional, service) =
     await resend.emails.send({
       from: process.env.EMAIL_FROM,
       to: booking.client_email,
-      subject: '✅ Cita confirmada - Michael Barbershop',
+      subject: `✅ Cita confirmada - ${BUSINESS_NAME}`,
       html: htmlContent
     });
     console.log(`✅ Email de confirmación enviado a ${booking.client_email}`);
@@ -280,7 +281,7 @@ const sendBookingCancellationToClient = async (booking, professional) => {
         </div>
         
         <div class="footer">
-          <p>Michael Barbershop</p>
+          <p>${BUSINESS_NAME}</p>
         </div>
       </div>
     </body>
@@ -291,7 +292,7 @@ const sendBookingCancellationToClient = async (booking, professional) => {
     await resend.emails.send({
       from: process.env.EMAIL_FROM,
       to: booking.client_email,
-      subject: '❌ Cita cancelada - Michael Barbershop',
+      subject: `❌ Cita cancelada - ${BUSINESS_NAME}`,
       html: htmlContent
     });
     return true;
@@ -333,7 +334,7 @@ const sendWelcomeEmailToProfessional = async ({ email, name, username, password,
           <p>
             ${isReset 
               ? 'Tu contraseña ha sido reseteada. A continuación encontrarás tus nuevas credenciales de acceso.'
-              : 'Has sido agregado como profesional en Michael Barbershop. A continuación encontrarás tus credenciales de acceso al sistema.'
+              : `Has sido agregado como profesional en ${BUSINESS_NAME}. A continuación encontrarás tus credenciales de acceso al sistema.`
             }
           </p>
           
@@ -375,7 +376,7 @@ const sendWelcomeEmailToProfessional = async ({ email, name, username, password,
         </div>
         
         <div class="footer">
-          <p>Michael Barbershop - Sistema de Gestión</p>
+          <p>${BUSINESS_NAME} - Sistema de Gestión</p>
           <p>Si tienes problemas, contacta al administrador</p>
         </div>
       </div>
@@ -387,7 +388,7 @@ const sendWelcomeEmailToProfessional = async ({ email, name, username, password,
     await resend.emails.send({
       from: process.env.EMAIL_FROM,
       to: email,
-      subject: isReset ? '🔐 Contraseña reseteada - Michael Barbershop' : '👋 Bienvenido al equipo - Michael Barbershop',
+      subject: isReset ? `🔐 Contraseña reseteada - ${BUSINESS_NAME}` : `👋 Bienvenido al equipo - ${BUSINESS_NAME}`,
       html: htmlContent
     });
     console.log(`✅ Email de ${isReset ? 'reset' : 'bienvenida'} enviado a ${email}`);
