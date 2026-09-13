@@ -125,12 +125,7 @@ const unifiedLogin = async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    console.log('\n🔐 UNIFIED LOGIN REQUEST');
-    console.log('Username:', username);
-    console.log('Password length:', password?.length);
-
     if (!username || !password) {
-      console.log('❌ Campos faltantes');
       return res.status(400).json({
         success: false,
         message: 'Usuario y contraseña requeridos'
@@ -138,24 +133,16 @@ const unifiedLogin = async (req, res) => {
     }
 
     // Buscar en profesionales
-    console.log('\n🔍 Buscando en tabla professionals...');
     let result = await query(
       'SELECT * FROM professionals WHERE username = $1',
       [username]
     );
 
     if (result.rows.length > 0) {
-      console.log('✅ Profesional encontrado');
       const professional = result.rows[0];
-      
-      console.log('ID:', professional.id);
-      console.log('Name:', professional.name);
-      console.log('Hash en DB:', professional.password_hash);
-      console.log('Role:', professional.role);
 
       // Verificar que tiene hash
       if (!professional.password_hash) {
-        console.log('❌ No tiene password_hash');
         return res.status(401).json({
           success: false,
           message: 'Esta cuenta no tiene contraseña configurada'
@@ -163,23 +150,14 @@ const unifiedLogin = async (req, res) => {
       }
 
       // Comparar contraseña
-      console.log('\n🔐 Comparando contraseña...');
-      console.log('Password ingresado:', password);
-      console.log('Hash a comparar:', professional.password_hash);
-      
       const isMatch = await bcrypt.compare(password, professional.password_hash);
-      
-      console.log('Resultado de bcrypt.compare:', isMatch);
 
       if (!isMatch) {
-        console.log('❌ Contraseña no coincide');
         return res.status(401).json({
           success: false,
           message: 'Credenciales inválidas'
         });
       }
-
-      console.log('✅ Contraseña correcta! Generando tokens...');
 
       // Login como profesional
       await cleanExpiredTokens(professional.id);
@@ -195,9 +173,6 @@ const unifiedLogin = async (req, res) => {
          VALUES ($1, $2, $3)`,
         [professional.id, refreshToken, expiresAt]
       );
-
-      console.log('✅ Tokens generados y guardados');
-      console.log('Enviando respuesta...\n');
 
       return res.json({
         success: true,
@@ -217,40 +192,30 @@ const unifiedLogin = async (req, res) => {
       });
     }
 
-    console.log('❌ No encontrado en professionals');
-
     // Buscar en clientes
-    console.log('\n🔍 Buscando en tabla clients...');
     result = await query(
       'SELECT * FROM clients WHERE username = $1',
       [username]
     );
 
     if (result.rows.length > 0) {
-      console.log('✅ Cliente encontrado');
       const client = result.rows[0];
 
       if (!client.password_hash) {
-        console.log('❌ Cliente sin password_hash');
         return res.status(401).json({
           success: false,
           message: 'Esta cuenta no tiene contraseña configurada'
         });
       }
 
-      console.log('\n🔐 Comparando contraseña de cliente...');
       const isMatch = await bcrypt.compare(password, client.password_hash);
-      console.log('Resultado:', isMatch);
 
       if (!isMatch) {
-        console.log('❌ Contraseña incorrecta');
         return res.status(401).json({
           success: false,
           message: 'Credenciales inválidas'
         });
       }
-
-      console.log('✅ Login de cliente exitoso');
 
       // Login como cliente
       const accessToken = jwt.sign(
@@ -290,8 +255,6 @@ const unifiedLogin = async (req, res) => {
         }
       });
     }
-
-    console.log('❌ Usuario no encontrado en ninguna tabla\n');
 
     // Usuario no encontrado
     return res.status(401).json({
