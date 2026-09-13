@@ -157,7 +157,7 @@ const createBooking = async (req, res) => {
   } catch (err) {
     if (clientConn) await clientConn.query('ROLLBACK').catch(() => {});
     console.error('Error creando reserva:', err);
-    res.status(200).json({
+    res.status(500).json({
       success: false,
       message: 'No se pudo crear la reserva. Verifica los datos ingresados.',
       error: err.message
@@ -210,7 +210,7 @@ const confirmBooking = async (req, res) => {
   } catch (err) {
     if (clientConn) await clientConn.query('ROLLBACK').catch(() => {});
     console.error('Error confirmando reserva:', err);
-    res.status(200).json({ success: false, message: 'No se pudo confirmar la reserva' });
+    res.status(500).json({ success: false, message: 'No se pudo confirmar la reserva' });
   } finally {
     if (clientConn) clientConn.release();
   }
@@ -255,7 +255,7 @@ const rejectBooking = async (req, res) => {
   } catch (err) {
     if (clientConn) await clientConn.query('ROLLBACK').catch(() => {});
     console.error('Error cancelando reserva:', err);
-    res.status(200).json({ success: false, message: 'No se pudo cancelar la reserva' });
+    res.status(500).json({ success: false, message: 'No se pudo cancelar la reserva' });
   } finally {
     if (clientConn) clientConn.release();
   }
@@ -290,7 +290,7 @@ const getMyBookings = async (req, res) => {
     res.json({ success: true, count: result.rows.length, data: result.rows });
   } catch (err) {
     console.error('Error obteniendo reservas:', err);
-    res.status(200).json({ success: false, message: 'No se pudo obtener reservas' });
+    res.status(500).json({ success: false, message: 'No se pudo obtener reservas' });
   }
 };
 
@@ -312,7 +312,7 @@ const completeBooking = async (req, res) => {
     res.json({ success: true, message: 'Reserva completada', data: result.rows[0] });
   } catch (err) {
     console.error('Error completando reserva:', err);
-    res.status(200).json({ success: false, message: 'No se pudo completar la reserva' });
+    res.status(500).json({ success: false, message: 'No se pudo completar la reserva' });
   }
 };
 
@@ -334,7 +334,7 @@ const cancelBooking = async (req, res) => {
     res.json({ success: true, message: 'Reserva cancelada', data: result.rows[0] });
   } catch (err) {
     console.error('Error cancelando reserva:', err);
-    res.status(200).json({ success: false, message: 'No se pudo cancelar la reserva' });
+    res.status(500).json({ success: false, message: 'No se pudo cancelar la reserva' });
   }
 };
 
